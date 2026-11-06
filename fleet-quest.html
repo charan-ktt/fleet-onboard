@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Fleet quest – customer onboarding</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--page:#FFFFFF;--ink:#1F1924;--o:#9519EF;--oi:#FFFFFF;--pa:#DFB7FF;--gt:#2E7D32;--g:#4CAF50;--pn:#17111C;--pt:#EBDEEE;--pm:#C4C7C7;--cd:#FFFFFF;--ct:#1C1B1B;--cm:#444748;--ln:#C4C7C7;--er:#E11F1F;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--page:#17111C;--ink:#EBDEEE}}
+:root[data-theme="dark"]{--page:#17111C;--ink:#EBDEEE}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;overflow:hidden;background:var(--page);color:var(--ink);font-family:Outfit,system-ui,-apple-system,"Segoe UI",sans-serif}
+button{font-family:inherit;cursor:pointer}
+button:focus-visible,.in:focus-visible{outline:3px solid var(--o);outline-offset:2px}
+.app{max-width:440px;height:100%;margin:0 auto;display:flex;flex-direction:column;gap:10px;padding:12px}
+.panel{border:1px solid #2A2433;position:relative;flex:1;min-height:0;background:var(--pn);border-radius:28px;color:var(--pt);overflow:hidden;display:flex;flex-direction:column}
+header{padding:16px 18px 4px;flex:none}
+.t1{display:flex;align-items:center;gap:8px;font-weight:700;font-size:15px}
+.xp{display:flex;align-items:center;gap:10px;margin-top:10px}
+.xb{flex:1;height:8px;border-radius:4px;background:#2A2A2A;overflow:hidden}
+.xb i{display:block;height:100%;width:0;background:linear-gradient(90deg,#9519EF,#DFB7FF);border-radius:4px;transition:width .7s cubic-bezier(.3,1.4,.5,1)}
+.pct{color:var(--pa);font-weight:700;font-size:14px;min-width:40px;text-align:right}
+.sub{font-size:13px;color:var(--pm);margin-top:6px}
+.hub{flex:1;position:relative;transition:opacity .5s,transform .5s,filter .5s;--r:clamp(62px,14.5dvh,116px)}
+.hub.dim{opacity:.22;transform:scale(.93);filter:blur(2px);pointer-events:none}
+.ring{position:absolute;left:50%;top:50%;border:1.5px dashed #444748;border-radius:50%;transform:translate(-50%,-50%)}
+.r1{width:calc(var(--r)*1.75);height:calc(var(--r)*1.75);animation:spin 50s linear infinite}
+.r2{width:calc(var(--r)*2.6);height:calc(var(--r)*2.6);animation:spin 80s linear infinite reverse}
+@keyframes spin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+.av{position:absolute;left:50%;top:50%;width:calc(var(--r)*1.15);height:calc(var(--r)*1.15);transform:translate(-50%,-50%);transition:filter .6s}
+.av.glow{filter:drop-shadow(0 0 18px rgba(149,25,239,.65))}
+.node{position:absolute;left:50%;top:50%;transform:translate(calc(-50% + var(--x)),calc(-50% + var(--y)));border:0;padding:0;background:none}
+.node span{display:flex;align-items:center;gap:6px;padding:9px 14px;min-height:44px;border-radius:999px;background:var(--o);color:var(--oi);font-weight:700;font-size:14px;animation:fl 4s ease-in-out infinite;transition:background .4s,color .4s}
+.node:nth-of-type(5) span{animation-delay:-1.3s}.node:nth-of-type(6) span{animation-delay:-2.6s}
+@keyframes fl{50%{transform:translateY(-6px)}}
+.node:hover span{box-shadow:0 0 0 6px rgba(149,25,239,.3)}
+.node small{background:rgba(0,0,0,.18);border-radius:9px;padding:1px 7px;font-size:12px}
+.node.prog span{background:#2A2A2A;color:var(--pt);outline:2px solid var(--o)}
+.node.done span{background:var(--g);color:#0F2A12}
+.card{position:absolute;left:10px;right:10px;bottom:10px;background:var(--cd);color:var(--ct);border-radius:22px;padding:14px 14px 12px;transform:translateY(125%);transition:transform .55s cubic-bezier(.2,1.15,.3,1);box-shadow:0 20px 50px rgba(0,0,0,.5)}
+.card.open{transform:none}
+.ch{display:flex;align-items:center;gap:8px;font-weight:700;font-size:16px}
+.ch .c{margin-left:auto;color:var(--cm);font-size:13px;font-weight:600}
+.ib{border:0;background:none;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;color:var(--ct)}
+.lr{display:flex;align-items:center;gap:8px;margin-top:8px;font-weight:600;font-size:14px;color:var(--cm)}
+.lr .rq{color:var(--er)}
+.inf{border:0;background:#ECE4F5;color:var(--ct);width:28px;height:28px;border-radius:50%;font:italic 700 14px Georgia,serif}
+.mic{margin-left:auto;border:0;width:44px;height:44px;border-radius:50%;background:var(--o);color:var(--oi);display:grid;place-items:center}
+.mic.off{background:#ECE4F5;color:var(--cm)}
+.mic.live{animation:pu 1.4s infinite}
+@keyframes pu{0%{box-shadow:0 0 0 0 rgba(149,25,239,.55)}100%{box-shadow:0 0 0 16px rgba(149,25,239,0)}}
+.tip{background:var(--ct);color:var(--cd);font-size:13px;line-height:1.4;padding:9px 12px;border-radius:12px;margin-top:6px;animation:inr .3s}
+.body{margin-top:8px}
+.body.r{animation:inr .42s cubic-bezier(.2,.9,.3,1)}.body.l{animation:inl .42s cubic-bezier(.2,.9,.3,1)}
+@keyframes inr{from{opacity:0;transform:translateX(40px)}}
+@keyframes inl{from{opacity:0;transform:translateX(-40px)}}
+.in{width:100%;font:600 19px/1.2 Outfit,system-ui,sans-serif;padding:14px;border:2px solid var(--ln);border-radius:14px;background:#fff;color:var(--ct);transition:border-color .3s,box-shadow .3s}
+.in:focus{border-color:var(--o)}
+.in.ok{border-color:var(--g);box-shadow:0 0 0 4px rgba(76,175,80,.15)}
+.cg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.chip{min-height:48px;border:2px solid var(--ln);border-radius:14px;background:#fff;color:var(--ct);font-weight:600;font-size:15px;transition:.25s cubic-bezier(.4,1.6,.5,1)}
+.chip:hover{border-color:var(--o);transform:translateY(-2px)}
+.chip.sel{background:var(--g);border-color:var(--g);color:#0F2A12;transform:scale(1.04)}
+.geo{width:100%;min-height:46px;margin-bottom:8px;border:2px dashed var(--o);border-radius:14px;background:#F3DEFF;color:var(--ct);font-weight:600;font-size:15px}
+.vs{display:flex;align-items:center;gap:10px;margin-top:10px;font-size:13px;color:var(--cm);min-height:24px}
+.wave{display:flex;align-items:center;gap:3px;height:20px}
+.wave i{width:3px;height:6px;border-radius:2px;background:var(--o)}
+.vs.live .wave i{animation:wv .9s ease-in-out infinite}
+.wave i:nth-child(2){animation-delay:.15s}.wave i:nth-child(3){animation-delay:.3s}.wave i:nth-child(4){animation-delay:.45s}.wave i:nth-child(5){animation-delay:.6s}
+@keyframes wv{50%{height:20px}}
+.cn{display:flex;align-items:center;gap:10px;margin-top:10px}
+.nb{width:44px;height:44px;border-radius:50%;border:1.5px solid var(--ln);background:#fff;color:var(--ct);display:grid;place-items:center}
+.nb:disabled{opacity:.35}
+.dots{flex:1;display:flex;justify-content:center;gap:6px}
+.dots i{width:8px;height:8px;border-radius:4px;background:#C4C7C7;transition:.4s}
+.dots i.done{background:var(--g)}.dots i.cur{background:var(--o);width:24px}
+.nx{height:44px;padding:0 22px;border:0;border-radius:22px;background:var(--o);color:var(--oi);font-weight:700;font-size:16px}
+.nx:disabled{opacity:.4}
+.allf{text-align:center;font-size:12px;font-weight:600;color:var(--gt);height:16px;margin-top:6px}
+.foot{flex:none;display:flex;gap:10px}
+.ghost{height:52px;padding:0 16px;border:1.5px solid #747878;border-radius:26px;background:transparent;color:var(--ink);font-weight:600;font-size:14px;display:flex;align-items:center;gap:8px}
+.save{flex:1;height:52px;border:1.5px solid #444748;border-radius:26px;background:var(--pn);color:var(--pt);font-weight:700;font-size:17px;display:flex;align-items:center;justify-content:center;gap:8px}
+.save b{background:var(--o);color:var(--oi);font-size:12px;border-radius:9px;padding:2px 8px}
+.save:disabled{opacity:.7}
+.save.rdy{background:var(--o);color:var(--oi);animation:pu 1.4s infinite}
+.save.rdy b{display:none}
+.fin{position:absolute;inset:0;background:var(--pn);padding:24px 18px 12px;display:none;flex-direction:column;align-items:center;text-align:center;animation:inr .5s}
+.fin.on{display:flex}
+.fin svg{width:64px;height:64px}
+.fin h2{margin:12px 0 4px;font-size:26px}
+.sm{display:grid;grid-template-columns:1fr 1fr;gap:6px;width:100%;margin-top:14px}
+.sm div{background:#201F1F;border-radius:12px;padding:4px 10px;text-align:left;min-width:0}
+.sm small{display:block;color:var(--pm);font-size:11px}
+.sm span{font-weight:600;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+.pop{position:fixed;left:50%;top:38%;transform:translateX(-50%);color:var(--pa);font-weight:700;font-size:22px;pointer-events:none;animation:up 1s forwards;z-index:9;text-shadow:0 2px 8px rgba(0,0,0,.5)}
+@keyframes up{to{transform:translate(-50%,-70px);opacity:0}}
+.bit{position:fixed;width:8px;height:8px;border-radius:2px;pointer-events:none;animation:bt .9s ease-out forwards;z-index:9}
+@keyframes bt{to{transform:translate(var(--dx),var(--dy)) rotate(360deg);opacity:0}}
+.mp{position:absolute;inset:0;z-index:5;background:rgba(23,17,28,.97);display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:28px}
+.mp.on{display:flex;animation:inr .4s}
+.mi{width:84px;height:84px;border-radius:50%;background:var(--o);color:var(--oi);display:grid;place-items:center;animation:pu 1.4s infinite}
+.mi svg{width:38px;height:38px}
+.mp h2{margin:20px 0 8px;font-size:25px}
+.mp p{margin:0 0 14px;color:var(--pm);font-size:15px;line-height:1.45;max-width:30ch}
+.mp p.mw{color:#DFB7FF}
+.ghost.needs{background:var(--o);border-color:var(--o);color:var(--oi);font-weight:700;animation:pu 1.4s infinite}
+.ghost.on{border-color:#4CAF50}
+.ghost.on::before{content:"";width:9px;height:9px;border-radius:50%;background:#4CAF50}
+.mb{height:52px;padding:0 30px;border:0;border-radius:26px;background:var(--o);color:var(--oi);font-weight:700;font-size:17px}
+.ms{margin-top:8px;min-height:44px;padding:0 16px;border:0;background:none;color:var(--pm);font-size:15px;text-decoration:underline}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="app">
+ <main class="panel" id="panel">
+  <header>
+   <div class="t1"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#DFB7FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 01-10 0zM7 6H4v1a3 3 0 003 3M17 6h3v1a3 3 0 01-3 3"/></svg>Fleet quest · Customer onboarding</div>
+   <div class="xp"><div class="xb"><i id="xb"></i></div><span class="pct" id="pct">0%</span></div>
+   <div class="sub" id="hint">Tap a bubble to begin. Just talk, no typing.</div>
+  </header>
+  <section class="hub" id="hub">
+   <div class="ring r1"></div><div class="ring r2"></div>
+   <svg class="av" id="av" viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="56" fill="#2A2A2A" stroke="#9519EF" stroke-width="3"/><g fill="none" stroke="#EBDEEE" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"><path d="M28 48h36v26H28zM64 56h14l10 10v8H64z"/><circle cx="42" cy="78" r="5.5" fill="#2A2A2A"/><circle cx="78" cy="78" r="5.5" fill="#2A2A2A"/></g></svg>
+   <button class="node" id="n-me" style="--x:0px;--y:calc(var(--r)*-1.28)" data-g="me"></button>
+   <button class="node" id="n-veh" style="--x:calc(var(--r)*-.95);--y:calc(var(--r)*1.15)" data-g="veh"></button>
+   <button class="node" id="n-loc" style="--x:calc(var(--r)*1.1);--y:calc(var(--r)*-.05)" data-g="loc"></button>
+   <button class="node" id="n-map" style="--x:calc(var(--r)*.95);--y:calc(var(--r)*1.15)" data-g="map"></button>
+  </section>
+  <section class="card" id="card" aria-live="polite"></section>
+  <section class="fin" id="fin"></section>
+  <section class="mp" id="mp" role="dialog" aria-modal="true" aria-labelledby="mpt"></section>
+ </main>
+ <footer class="foot">
+  <button class="ghost" id="vt" type="button"></button>
+  <button class="save" id="save" type="button" disabled>Save <b id="left">7 left</b></button>
+ </footer>
+</div>
+<script>
+var $=function(s){return document.querySelector(s)};
+var IC={mic:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v3"/></svg>',
+x:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>',
+l:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>',
+ck:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg>',
+me:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>',
+fleet:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" aria-hidden="true"><path d="M2 6h12v10H2zM14 9h4l4 4v3h-8z"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg>',
+loc:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s7-6.5 7-12a7 7 0 00-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>'};
+var G={me:{n:'Customer',t:'Customer details'},loc:{n:'Location',t:'Location details'},veh:{n:'Vehicle group',t:'Vehicle group'},map:{n:'User mapping',t:'User mapping'}};
+IC.veh=IC.fleet;IC.map='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2 20c0-3.5 3-5.5 7-5.5s7 2 7 5.5M17 5a3.5 3.5 0 010 7M19 14.5c2 .7 3 2.2 3 4.5"/></svg>';
+var STATES=['Andhra Pradesh','Arunachal Pradesh','Assam','Bihar','Chandigarh','Chhattisgarh','Delhi','Goa','Gujarat','Haryana','Himachal Pradesh','Jammu and Kashmir','Jharkhand','Karnataka','Kerala','Ladakh','Madhya Pradesh','Maharashtra','Manipur','Meghalaya','Mizoram','Nagaland','Odisha','Puducherry','Punjab','Rajasthan','Sikkim','Tamil Nadu','Telangana','Tripura','Uttar Pradesh','Uttarakhand','West Bengal'];
+var CATS=['Bus','Truck','Taxi','Tractor','Auto','Ambulance'];
+var F=[
+{id:'category',g:'me',l:'Category',req:1,t:'chips',o:CATS,info:'The main kind of vehicles your fleet runs. Say or tap one.',say:'Say a type: Bus, Truck, Taxi, Tractor, Auto or Ambulance'},
+{id:'fleet',g:'me',l:'Fleet name',t:'text',ph:'e.g. Sri Murugan Travels',info:'The name your fleet is known by. Optional. Say “skip” to pass.',say:'Say your fleet’s name, or say “skip”'},
+{id:'owner',g:'me',l:'Owner name',req:1,t:'text',ph:'Your full name',info:'Full name of the person who owns the fleet.',say:'Say the owner’s full name'},
+{id:'phone',g:'me',l:'Phone number',req:1,t:'phone',ph:'98765 43210',im:'tel',info:'10-digit mobile number we can call or WhatsApp. No +91 needed.',say:'Say the 10 digits of your mobile number'},
+{id:'email',g:'me',l:'Email address',t:'email',ph:'you@example.com',im:'email',info:'We send invoices here. Optional. Say “at” and “dot”, or “skip”.',say:'Say your email, like “meena at gmail dot com”, or “skip”'},
+{id:'state',g:'loc',l:'State',req:1,t:'sel',o:STATES,info:'The state where your fleet is registered.',say:'Say your state, like “Tamil Nadu”'},
+{id:'pin',g:'loc',l:'Pin code',req:1,t:'pin',ph:'641005',im:'numeric',info:'The 6-digit postal code. We use it to suggest your tehsil and village.',say:'Say the 6 digits of your pin code'},
+{id:'tehsil',g:'loc',l:'Tehsil',req:1,t:'text',ph:'e.g. Coimbatore South',info:'Your tehsil (taluk or mandal). It may be filled in from the pin code. Change it if it’s wrong.',say:'Say your tehsil, or say “next” to keep it'},
+{id:'village',g:'loc',l:'Village name',req:1,t:'text',ph:'e.g. Singanallur',info:'Village, town or locality. Tap a suggestion or say the name.',say:'Say your village name'},
+{id:'geo',g:'loc',l:'Field geo location',req:1,t:'geo',im:'decimal',info:'Where your field is. We capture it from this device automatically. Allow location when asked.',say:'Say “capture location” or wait for it to auto-capture'},
+{id:'hp',g:'veh',l:'HP range',req:1,t:'chips',o:['Below 30 HP','30–40 HP','41–50 HP','51–60 HP','61–75 HP','Above 75 HP'],rng:[[0,29],[30,40],[41,50],[51,60],[61,75],[76,999]],info:'Engine power band of the vehicles in this group.',say:'Say the horsepower, like “fifty five”'},
+{id:'config',g:'veh',l:'Configuration',req:1,t:'chips',o:['4x2','4x4','6x2','6x4','8x4'],info:'Drive configuration of the vehicles, such as 4x2 or 4x4.',say:'Say it like “four by four”'},
+{id:'axle',g:'veh',l:'Axle positioning',req:1,t:'chips',o:['Front axle','Rear axle','Both axles'],info:'Which axle position applies to these vehicles.',say:'Say Front axle, Rear axle or Both axles'},
+{id:'machines',g:'veh',l:'Number of machines',req:1,t:'num',min:1,max:999,ph:'e.g. 5',im:'numeric',info:'How many machines are in this group.',say:'Say how many machines'},
+{id:'app',g:'veh',l:'Application',req:1,t:'sel',o:['Agriculture Dry','Agriculture Wet','Haulage','Commercial','Speciality'],info:'What the machines are mainly used for.',say:'Say the application, like “Haulage”'},
+{id:'payload',g:'veh',l:'Payload (Kg) / Attachment load',req:1,t:'num',min:1,max:99999,ph:'e.g. 2500',im:'numeric',info:'Typical payload or attachment load in kilograms.',say:'Say the load in kilograms'},
+{id:'map',g:'map',l:'User mapping',req:1,t:'chips',o:['Self','Reportee'],info:'Who will manage this customer: you (Self) or someone who reports to you.',say:'Say Self or Reportee'}];
+var F_OLD=[
+{id:'category',g:'fleet',l:'Category',req:1,t:'chips',info:'The main kind of vehicles your fleet runs. Say or tap one.',say:'Say a type: Bus, Truck, Taxi, Tractor, Auto or Ambulance'},
+{id:'fleet',g:'fleet',l:'Fleet name',t:'text',ph:'e.g. Sri Murugan Travels',info:'The name your fleet is known by. Optional. Say “skip” to pass.',say:'Say your fleet’s name, or say “skip”'},
+{id:'owner',g:'me',l:'Owner name',req:1,t:'text',ph:'Your full name',info:'Full name of the person who owns the fleet.',say:'Say the owner’s full name'},
+{id:'phone',g:'me',l:'Phone number',req:1,t:'phone',ph:'98765 43210',im:'tel',info:'10-digit mobile number we can call or WhatsApp. No +91 needed.',say:'Say the 10 digits of your mobile number'},
+{id:'email',g:'me',l:'Email address',t:'email',ph:'you@example.com',im:'email',info:'We send invoices here. Optional. Say “at” and “dot”, or “skip”.',say:'Say your email, like “meena at gmail dot com”, or “skip”'},
+{id:'village',g:'loc',l:'Village name',req:1,t:'text',ph:'e.g. Singanallur',info:'Village, town or locality where your fleet is based.',say:'Say your village name'},
+{id:'tehsil',g:'loc',l:'Tehsil',req:1,t:'text',ph:'e.g. Coimbatore South',info:'Your tehsil (taluk or mandal), as on land and revenue records.',say:'Say your tehsil'},
+{id:'pin',g:'loc',l:'Pin code',req:1,t:'pin',ph:'641005',im:'numeric',info:'The 6-digit postal code of your village or town.',say:'Say the 6 digits of your pin code'},
+{id:'state',g:'loc',l:'State',req:1,t:'state',info:'The state where your fleet is registered.',say:'Say your state, like “Tamil Nadu”'},
+{id:'geo',g:'loc',l:'Field geo location',t:'geo',im:'decimal',info:'Where your depot or field is. Optional. Say “use my location”, or “skip”.',say:'Say “use my location”, or “skip”'}];
+var V={},passed={},cur={g:null,i:0},mic='unknown',want=true,tip=false,busy=false,rec=null,run=0;
+var SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR)mic='unsupported';
+var gf=function(g){return F.filter(function(f){return f.g===g})};
+var esc=function(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;')};
+function valid(f,v){v=(v||'').trim();if(f.t==='chips'||f.t==='sel')return f.o.indexOf(v)>-1;if(f.t==='num')return /^\d+$/.test(v)&&+v>=f.min&&+v<=f.max;return validOld(f,v)}
+function validOld(f,v){v=(v||'').trim();switch(f.t){case'text':return v.length>=2;case'phone':return /^[6-9]\d{9}$/.test(v);case'pin':return /^\d{6}$/.test(v);
+case'email':return /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v);case'chips':return CATS.indexOf(v)>-1;case'state':return STATES.indexOf(v)>-1;
+case'geo':var m=v.match(/^(-?\d+(?:\.\d+)?)\s*,\s*(-?\d+(?:\.\d+)?)$/);return !!m&&Math.abs(+m[1])<=90&&Math.abs(+m[2])<=180}return false}
+var filled=function(f){return !!V[f.id]&&valid(f,V[f.id])};
+var fok=function(f){return f.req?filled(f):(filled(f)||!!passed[f.id])};
+var gdone=function(g){return gf(g).every(fok)};
+var voiceOn=function(){return mic==='on'&&want};
+var W={zero:0,oh:0,one:1,two:2,to:2,too:2,three:3,four:4,for:4,five:5,six:6,seven:7,eight:8,ate:8,nine:9};
+function digits(t){var o='',m=1,a=t.toLowerCase().replace(/[,.\-]/g,' ').split(/\s+/);for(var k=0;k<a.length;k++){var w=a[k];if(w==='double'){m=2;continue}if(w==='triple'){m=3;continue}var d=/^\d+$/.test(w)?w:(W.hasOwnProperty(w)?String(W[w]):'');if(d)o+=new Array(m+1).join(d);m=1}return o}
+function title(t){return t.replace(/[^A-Za-z .'\u0B80-\u0BFF\u0900-\u097F]/g,' ').replace(/\s+/g,' ').trim().replace(/\b[a-z]/g,function(c){return c.toUpperCase()})}
+var NW={zero:0,one:1,two:2,three:3,four:4,five:5,six:6,seven:7,eight:8,nine:9,ten:10,eleven:11,twelve:12,thirteen:13,fourteen:14,fifteen:15,sixteen:16,seventeen:17,eighteen:18,nineteen:19,twenty:20,thirty:30,forty:40,fifty:50,sixty:60,seventy:70,eighty:80,ninety:90};
+function num(t){var s=t.toLowerCase().replace(/,/g,''),m=s.match(/\d+/);if(m)return m[0];var tot=0,c=0,got=false;s.split(/[\s-]+/).forEach(function(w){if(NW.hasOwnProperty(w)){c+=NW[w];got=true}else if(w==='hundred'){c=(c||1)*100;got=true}else if(w==='thousand'){tot+=(c||1)*1000;c=0;got=true}});return got?String(tot+c):''}
+var PO={v:[]};
+function lookupPin(p){PO.v=[];if(!window.fetch)return;fetch('https://api.postalpincode.in/pincode/'+p).then(function(r){return r.json()}).then(function(j){var d=j&&j[0]&&j[0].PostOffice;if(!d||!d.length)return;PO.v=d.map(function(x){return x.Name}).filter(function(x,i,a){return a.indexOf(x)===i}).slice(0,6);var s=STATES.filter(function(x){return x.toLowerCase()===String(d[0].State).toLowerCase()})[0];if(s&&!V.state){V.state=s;passed.state=1}var b=d[0].Block&&d[0].Block!=='NA'?d[0].Block:d[0].District;if(b&&!V.tehsil)V.tehsil=b;hubUpd()}).catch(function(){})}
+function parse(f,t){var n=t.toLowerCase().trim();
+ if(f.t==='num')return num(n);
+ if(f.t==='chips'||f.t==='sel'){
+  if(f.rng){var x=+num(n);if(x)for(var k=0;k<f.rng.length;k++)if(x>=f.rng[k][0]&&x<=f.rng[k][1])return f.o[k]}
+  var q=n;if(f.id==='config')q=n.replace(/\b(zero|one|two|three|four|five|six|seven|eight|nine)\b/g,function(m){return W[m]}).replace(/\s*(by|x|into|cross)\s*/g,'x');
+  q=q.replace(/[^a-z0-9]/g,'');var best='';f.o.forEach(function(o){var k=o.toLowerCase().replace(/[^a-z0-9]/g,'');if(q.indexOf(k)>-1&&o.length>best.length)best=o});
+  if(!best&&f.id==='category'){var syn={cab:'Taxi',car:'Taxi',lorry:'Truck',tipper:'Truck',rickshaw:'Auto'};for(var s in syn)if(n.indexOf(s)>-1)return syn[s]}
+  if(!best&&f.id==='map'){if(/(my ?self|\bme\b|\bown\b)/.test(n))return 'Self';if(/(report|team|staff)/.test(n))return 'Reportee'}
+  return best}
+ return parseOld(f,t)}
+function parseOld(f,t){var n=t.toLowerCase().trim();
+ if(f.t==='phone'){var d=digits(n);if(d.length>10&&d.indexOf('91')===0)d=d.slice(-10);return d}
+ if(f.t==='pin')return digits(n);
+ if(f.t==='email')return (' '+n+' ').replace(/ at the rate( of)? | at /g,'@').replace(/ dot /g,'.').replace(/ underscore /g,'_').replace(/ (dash|hyphen) /g,'-').replace(/\s+/g,'');
+ if(f.t==='chips'){var syn={cab:'Taxi',car:'Taxi',lorry:'Truck',tipper:'Truck',rickshaw:'Auto'},r=CATS.filter(function(c){return n.indexOf(c.toLowerCase())>-1})[0];if(r)return r;for(var s in syn)if(n.indexOf(s)>-1)return syn[s];return''}
+ if(f.t==='state'){var q=n.replace(/\s/g,''),best='';STATES.forEach(function(s){if(q.indexOf(s.toLowerCase().replace(/\s/g,''))>-1&&s.length>best.length)best=s});return best}
+ if(f.t==='geo')return /(here|my location|current|use)/.test(n)?'GEO':n.replace(/\s*(comma|and)\s*/g,',');
+ return title(t)}
+/* ---------- hub ---------- */
+function hubUpd(){var tot=F.length,fl=F.filter(filled).length,left=F.filter(function(f){return f.req&&!filled(f)}).length;
+ $('#xb').style.width=(fl/tot*100)+'%';$('#pct').textContent=Math.round(fl/tot*100)+'%';
+ ['me','loc','veh','map'].forEach(function(g){var n=$('#n-'+g),a=gf(g),c=a.filter(filled).length,d=gdone(g);n.className='node'+(d?' done':c?' prog':'');
+  n.innerHTML='<span>'+(d?IC.ck:IC[g])+G[g].n+'<small>'+c+'/'+a.length+'</small></span>';n.setAttribute('aria-label',G[g].n+', '+c+' of '+a.length+' filled')});
+ var s=$('#save');s.disabled=left>0;s.className='save'+(left?'':' rdy');s.innerHTML=left?'Save '+IC.ck+' <b>'+left+' left</b>':'Save and finish '+IC.ck;
+ $('#av').classList.toggle('glow',fl>0);
+ $('#hint').textContent=left?(fl?'Keep going. '+left+' required answer'+(left>1?'s':'')+' to go.':'Tap a bubble to begin. Just talk, no typing.'):'All set. Tap Save to finish.'}
+function micUpd(){var b=$('#vt'),t=voiceOn()?'Mic on':(mic==='unsupported'?'Voice not supported':'Turn on mic');b.className='ghost'+(voiceOn()?' on':(mic==='unsupported'?'':' needs'));
+ b.innerHTML=(voiceOn()?'':IC.mic)+t;b.disabled=mic==='unsupported';b.setAttribute('aria-pressed',voiceOn())}
+/* ---------- fx ---------- */
+function pop(t){var e=document.createElement('div');e.className='pop';e.textContent=t;document.body.appendChild(e);setTimeout(function(){e.remove()},1000)}
+function burst(el){var r=el.getBoundingClientRect(),cs=['#9519EF','#DFB7FF','#4CAF50','#EBDEEE'];for(var k=0;k<18;k++){var b=document.createElement('i');b.className='bit';b.style.left=(r.left+r.width/2)+'px';b.style.top=(r.top+r.height/2)+'px';b.style.background=cs[k%4];var a=Math.random()*6.28,d=50+Math.random()*70;b.style.setProperty('--dx',Math.cos(a)*d+'px');b.style.setProperty('--dy',Math.sin(a)*d+'px');document.body.appendChild(b);setTimeout(function(x){x.remove()},950,b)}}
+/* ---------- mic ---------- */
+function enableMic(){if(!SR){mic='unsupported';return Promise.resolve(false)}
+ if(!window.isSecureContext||!(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia)){mic='denied';BLOCK='The microphone needs a secure https:// address. Open this page over https.';return Promise.resolve(false)}
+ return (navigator.mediaDevices&&navigator.mediaDevices.getUserMedia?navigator.mediaDevices.getUserMedia({audio:true}):Promise.reject()).then(function(s){s.getTracks().forEach(function(t){t.stop()});mic='on';return true}).catch(function(er){mic='denied';if(er&&er.name==='NotFoundError')BLOCK='No microphone was found. Connect one and tap Turn on mic again.';return false})}
+function stopListen(){run++;try{rec&&rec.abort()}catch(e){}rec=null}
+function startListen(){if(!voiceOn()||!cur.g)return;stopListen();var id=++run;rec=new SR();rec.lang='en-IN';rec.interimResults=true;rec.maxAlternatives=1;
+ rec.onstart=function(){var v=$('.vs');v&&v.classList.add('live');var m=$('.mic');m&&m.classList.add('live')};
+ rec.onresult=function(e){var t='',fin=false;for(var k=e.resultIndex;k<e.results.length;k++){t+=e.results[k][0].transcript;if(e.results[k].isFinal)fin=true}heard('“'+t.trim()+'”');if(fin)handle(t)};
+ rec.onerror=function(e){var er=e.error;if(er==='not-allowed'||er==='service-not-allowed'){mic='denied';micUpd();render('');heard(BLOCK)}else if(er==='audio-capture')heard('No microphone found. Choose a mic in your browser settings.');else if(er==='network')heard('Speech service unreachable. Check your internet connection.');else if(er==='no-speech')heard('Didn’t hear anything. Speak after the mic pulses.');else if(er==='language-not-supported')heard('Speech language not supported.')};
+ rec.onend=function(){var v=$('.vs');v&&v.classList.remove('live');var m=$('.mic');m&&m.classList.remove('live');if(id===run&&voiceOn()&&cur.g&&!busy)setTimeout(function(){if(id===run)startListen()},250)};
+ try{rec.start()}catch(e){}}
+function heard(t){var h=$('#heard');if(h)h.textContent=t}
+function handle(t){var f=gf(cur.g)[cur.i],n=t.toLowerCase().trim().replace(/[.!]/g,'');
+ if(/^(skip|next|done|continue)$/.test(n)){if(!f.req||filled(f))go(1);else heard('This one is required. '+f.say);return}
+ if(/^(back|previous|go back)$/.test(n)){go(-1);return}
+ var v=parse(f,t);
+ if(v==='GEO'){geoReq();return}
+ if(valid(f,v))setVal(f,v,true);else heard('Heard “'+t.trim()+'”. Please say it again.')}
+function geoReq(){var f=F[9];heard('Finding your location…');if(!navigator.geolocation){heard('Location isn’t available here. Say “skip”.');return}
+ navigator.geolocation.getCurrentPosition(function(p){setVal(f,p.coords.latitude.toFixed(5)+', '+p.coords.longitude.toFixed(5),true)},function(){heard('Couldn’t read your location. Say “skip” or type it.')},{timeout:8000})}
+/* ---------- card ---------- */
+function setVal(f,v,auto){var was=filled(f);V[f.id]=v;passed[f.id]=1;if(f.id==='pin'&&valid(f,v))lookupPin(v);
+ if(f.id===gf(cur.g)[cur.i].id)render('');
+ hubUpd();if(!was&&filled(f)){pop('+10 XP');if(navigator.vibrate)navigator.vibrate(15)}
+ if(auto){busy=true;stopListen();setTimeout(function(){busy=false;if(cur.g&&gf(cur.g)[cur.i].id===f.id)go(1)},800)}}
+function render(dir){var a=gf(cur.g),f=a[cur.i],last=cur.i===a.length-1,v=V[f.id]||'',ok=filled(f),vo=voiceOn(),body;
+ var ro=vo?' readonly inputmode="none"':' inputmode="'+(f.im||'text')+'"';
+ if(f.t==='chips')body='<div class="cg">'+f.o.map(function(o){return '<button type="button" class="chip'+(v===o?' sel':'')+'" data-a="pick" data-v="'+o+'">'+o+'</button>'}).join('')+'</div>';
+ else if(f.t==='sel')body='<select class="in'+(ok?' ok':'')+'" id="inp" data-a="sel" aria-label="State"><option value="">Select…</option>'+f.o.map(function(o){return '<option'+(v===o?' selected':'')+'>'+o+'</option>'}).join('')+'</select>';
+ else body=(f.id==='village'&&PO.v.length?'<div class="cg">'+PO.v.map(function(o){return '<button type="button" class="chip'+(v===o?' sel':'')+'" data-a="pick" data-v="'+esc(o)+'">'+esc(o)+'</button>'}).join('')+'</div><div style="height:8px"></div>':'')+(f.t==='geo'?'<button type="button" class="geo" data-a="geo">Auto-capture my location</button>':'')+'<input class="in'+(ok?' ok':'')+'" id="inp" aria-label="'+f.l+'" value="'+esc(v)+'" placeholder="'+esc(f.ph||'')+'" autocomplete="off"'+ro+'>';
+ var st=vo?f.say:(mic==='denied'?'Mic is blocked. Type your answer instead.':'Type your answer');
+ var dots=a.map(function(x,k){return '<i class="'+(k===cur.i?'cur':(filled(x)||passed[x.id]?'done':''))+'"></i>'}).join('');
+ var hd=$('#card');hd.innerHTML='<div class="ch">'+IC[cur.g]+G[cur.g].t+'<span class="c">'+(cur.i+1)+' / '+a.length+'</span><button class="ib" data-a="close" aria-label="Close">'+IC.x+'</button></div>'+
+ '<div class="lr">'+f.l+(f.req?'<span class="rq">*</span>':'')+'<button class="inf" data-a="tip" aria-label="What to fill in '+f.l+'">i</button>'+
+ (mic==='unsupported'?'':'<button class="mic'+(vo?'':' off')+'" data-a="mic" aria-label="'+(vo?'Turn voice off and type':'Turn voice on')+'">'+IC.mic+'</button>')+'</div>'+
+ (tip?'<div class="tip">'+f.info+'</div>':'')+
+ '<div class="body '+(dir||'')+'">'+body+'</div>'+
+ '<div class="vs"><span class="wave" style="'+(vo?'':'display:none')+'"><i></i><i></i><i></i><i></i><i></i></span><span id="heard">'+st+'</span></div>'+
+ '<div class="cn"><button class="nb" data-a="back" aria-label="Previous"'+(cur.i?'':' disabled')+'>'+IC.l+'</button><div class="dots">'+dots+'</div><button class="nx" data-a="next"'+((f.req&&!ok)?' disabled':'')+'>'+(last?'Done':'Next')+'</button></div>'+
+ '<div class="allf">'+(gdone(cur.g)?'✓ All filled':'')+'</div>';
+ if(f.t==='geo'&&!ok&&dir!=='')setTimeout(function(){if(cur.g&&gf(cur.g)[cur.i].id==='geo'&&!filled(f))geoReq()},700);
+ if(!vo&&dir!==''&&(f.t==='text'||f.t==='phone'||f.t==='email'||f.t==='pin'||f.t==='geo'||f.t==='num'))setTimeout(function(){var i=$('#inp');i&&i.focus({preventScroll:true})},420);
+ if(!vo&&dir===''){var i=$('#inp');if(i&&document.activeElement!==i&&i.tagName==='INPUT'&&i.dataset.keep)i.focus()}}
+function go(d){var a=gf(cur.g),f=a[cur.i];if(d>0){if(f.req&&!filled(f))return;passed[f.id]=1;tip=false;
+  if(cur.i===a.length-1){hubUpd();closeCard(true);return}cur.i++;render('r')}
+ else{if(!cur.i)return;tip=false;cur.i--;render('l')}
+ hubUpd();stopListen();setTimeout(startListen,400)}
+function openG(g){var go2=function(){var a=gf(g),k=a.findIndex(function(x){return !fok(x)});cur={g:g,i:k<0?0:k};tip=false;micUpd();$('#hub').classList.add('dim');$('#card').classList.add('open');render('r');setTimeout(startListen,600)};
+ if(mic==='unknown')enableMic().then(function(){micUpd();go2()});else go2()}
+function closeCard(fin){stopListen();var g=cur.g;cur.g=null;$('#card').classList.remove('open');$('#hub').classList.remove('dim');hubUpd();
+ if(fin&&gdone(g)){burst($('#n-'+g));pop('Section complete!')}}
+$('#card').addEventListener('click',function(e){var b=e.target.closest('[data-a]');if(!b)return;var a=b.dataset.a,f=gf(cur.g)[cur.i];
+ if(a==='close')closeCard(false);else if(a==='next')go(1);else if(a==='back')go(-1);else if(a==='tip'){tip=!tip;render('')}
+ else if(a==='pick')setVal(f,b.dataset.v,true);else if(a==='geo')geoReq();
+ else if(a==='mic'){if(mic!=='on'){ask().then(function(ok){if(!ok)return;want=true;micUpd();render('');startListen()})}else{want=!want;micUpd();stopListen();render('');if(want)startListen()}}});
+$('#card').addEventListener('change',function(e){if(e.target.dataset.a==='sel'&&e.target.value)setVal(gf(cur.g)[cur.i],e.target.value,true)});
+$('#card').addEventListener('input',function(e){var t=e.target;if(t.id!=='inp'||t.readOnly||t.tagName!=='INPUT')return;var f=gf(cur.g)[cur.i],v=t.value;if(f.t==='phone'||f.t==='pin'||f.t==='num'){v=v.replace(/\D/g,'').slice(0,f.t==='pin'?6:f.t==='num'?String(f.max).length:10);t.value=v}
+ V[f.id]=v;t.classList.toggle('ok',valid(f,v));var nx=$('.nx');nx.disabled=f.req&&!valid(f,v);hubUpd();if(valid(f,v)&&(f.t==='phone'||f.t==='pin')){busy=true;setTimeout(function(){busy=false;if(cur.g&&gf(cur.g)[cur.i].id===f.id)setVal(f,v,true)},350)}});
+$('#card').addEventListener('keydown',function(e){if(e.key==='Enter'&&e.target.tagName==='INPUT'){var f=gf(cur.g)[cur.i];if(!f.req||filled(f)){e.preventDefault();go(1)}}});
+['me','loc','veh','map'].forEach(function(g){$('#n-'+g).addEventListener('click',function(){openG(g)})});
+$('#vt').addEventListener('click',function(){if(mic!=='on'){ask().then(function(ok){if(!ok)return;want=true;micUpd();if(cur.g){render('');startListen()}})}else{want=!want;micUpd();if(cur.g){stopListen();render('');if(want)startListen()}}});
+$('#save').addEventListener('click',function(){var fl=$('#fin');fl.innerHTML='<svg width="84" height="84" viewBox="0 0 84 84" fill="none" aria-hidden="true"><circle cx="42" cy="42" r="42" fill="#9519EF"/><path d="M24 43l12 12 24-26" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg><h2>Welcome aboard, '+esc((V.owner||'').split(' ')[0])+'!</h2><div class="sub">Level complete. Your fleet is registered.</div><div class="sm">'+F.map(function(f){return '<div><small>'+f.l+'</small><span>'+esc(V[f.id]||'—')+'</span></div>'}).join('')+'</div>';
+ fl.classList.add('on');burst($('#save'));pop('+100 XP')});
+var BLOCK='The microphone is blocked. Click the lock icon next to the address bar, set Microphone to Allow, then tap Turn on mic again.'+(window.self!==window.top?' This page is inside a frame, so the embedding code needs allow="microphone".':'');
+function ask(){return enableMic().then(function(ok){micUpd();if(ok){$('#mp').classList.remove('on')}else if(mic==='denied'){$('#hint').textContent=BLOCK;var h=$('#heard');if(h)h.textContent=BLOCK}return ok})}
+function mpShow(msg,retry){var m=$('#mp');m.innerHTML='<div class="mi">'+IC.mic+'</div><h2 id="mpt">Turn on your microphone</h2><p>Speak your answers and the form fills itself, with no keyboard. Your browser will ask for permission.</p>'+(msg?'<p class="mw">'+msg+'</p>':'')+'<button class="mb" id="mp-go" type="button">'+(retry?'Try again':'Allow microphone')+'</button><button class="ms" id="mp-no" type="button">Type instead</button>';m.classList.add('on');
+ $('#mp-go').onclick=function(){ask()};
+ $('#mp-no').onclick=function(){want=false;micUpd();m.classList.remove('on')};$('#mp-go').focus()}
+hubUpd();micUpd();
+if(SR&&navigator.permissions&&navigator.permissions.query){navigator.permissions.query({name:'microphone'}).then(function(s){if(s.state==='granted')enableMic().then(micUpd);s.onchange=function(){if(s.state==='granted'&&mic!=='on')enableMic().then(micUpd)}}).catch(function(){})}
+</script>
+</body>
+</html>

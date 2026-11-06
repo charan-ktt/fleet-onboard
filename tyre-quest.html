@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Tyre quest – tyre onboarding</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--page:#FFFFFF;--ink:#1F1924;--o:#9519EF;--oi:#FFFFFF;--pa:#DFB7FF;--gt:#2E7D32;--g:#4CAF50;--pn:#17111C;--pt:#EBDEEE;--pm:#C4C7C7;--cd:#FFFFFF;--ct:#1C1B1B;--cm:#444748;--ln:#C4C7C7;--er:#E11F1F;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--page:#17111C;--ink:#EBDEEE}}
+:root[data-theme="dark"]{--page:#17111C;--ink:#EBDEEE}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;overflow:hidden;background:var(--page);color:var(--ink);font-family:Outfit,system-ui,-apple-system,"Segoe UI",sans-serif}
+button{font-family:inherit;cursor:pointer}
+button:focus-visible,.in:focus-visible{outline:3px solid var(--o);outline-offset:2px}
+.app{max-width:440px;height:100%;margin:0 auto;display:flex;flex-direction:column;gap:10px;padding:12px}
+.panel{border:1px solid #2A2433;position:relative;flex:1;min-height:0;background:var(--pn);border-radius:28px;color:var(--pt);overflow:hidden;display:flex;flex-direction:column}
+header{padding:16px 18px 4px;flex:none}
+.t1{display:flex;align-items:center;gap:8px;font-weight:700;font-size:15px}
+.xp{display:flex;align-items:center;gap:10px;margin-top:10px}
+.xb{flex:1;height:8px;border-radius:4px;background:#2A2A2A;overflow:hidden}
+.xb i{display:block;height:100%;width:0;background:linear-gradient(90deg,#9519EF,#DFB7FF);border-radius:4px;transition:width .7s cubic-bezier(.3,1.4,.5,1)}
+.pct{color:var(--pa);font-weight:700;font-size:14px;min-width:40px;text-align:right}
+.sub{font-size:13px;color:var(--pm);margin-top:6px}
+.hub{flex:1;position:relative;transition:opacity .5s,transform .5s,filter .5s;--r:clamp(62px,14.5dvh,116px)}
+.hub.dim{opacity:.22;transform:scale(.93);filter:blur(2px);pointer-events:none}
+.ring{position:absolute;left:50%;top:50%;border:1.5px dashed #444748;border-radius:50%;transform:translate(-50%,-50%)}
+.r1{width:calc(var(--r)*1.75);height:calc(var(--r)*1.75);animation:spin 50s linear infinite}
+.r2{width:calc(var(--r)*2.6);height:calc(var(--r)*2.6);animation:spin 80s linear infinite reverse}
+@keyframes spin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+.av{position:absolute;left:50%;top:50%;width:calc(var(--r)*1.15);height:calc(var(--r)*1.15);transform:translate(-50%,-50%);transition:filter .6s}
+.av.glow{filter:drop-shadow(0 0 18px rgba(149,25,239,.65))}
+.node{position:absolute;left:50%;top:50%;transform:translate(calc(-50% + var(--x)),calc(-50% + var(--y)));border:0;padding:0;background:none}
+.node span{display:flex;align-items:center;gap:6px;padding:9px 14px;min-height:44px;border-radius:999px;background:var(--o);color:var(--oi);font-weight:700;font-size:14px;animation:fl 4s ease-in-out infinite;transition:background .4s,color .4s}
+.node:nth-of-type(5) span{animation-delay:-1.3s}.node:nth-of-type(6) span{animation-delay:-2.6s}
+@keyframes fl{50%{transform:translateY(-6px)}}
+.node:hover span{box-shadow:0 0 0 6px rgba(149,25,239,.3)}
+.node small{background:rgba(0,0,0,.18);border-radius:9px;padding:1px 7px;font-size:12px}
+.node.prog span{background:#2A2A2A;color:var(--pt);outline:2px solid var(--o)}
+.node.done span{background:var(--g);color:#0F2A12}
+.card{position:absolute;left:10px;right:10px;bottom:10px;background:var(--cd);color:var(--ct);border-radius:22px;padding:14px 14px 12px;transform:translateY(125%);transition:transform .55s cubic-bezier(.2,1.15,.3,1);box-shadow:0 20px 50px rgba(0,0,0,.5)}
+.card.open{transform:none}
+.ch{display:flex;align-items:center;gap:8px;font-weight:700;font-size:16px}
+.ch .c{margin-left:auto;color:var(--cm);font-size:13px;font-weight:600}
+.ib{border:0;background:none;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;color:var(--ct)}
+.lr{display:flex;align-items:center;gap:8px;margin-top:8px;font-weight:600;font-size:14px;color:var(--cm)}
+.lr .rq{color:var(--er)}
+.inf{border:0;background:#ECE4F5;color:var(--ct);width:28px;height:28px;border-radius:50%;font:italic 700 14px Georgia,serif}
+.mic{margin-left:auto;border:0;width:44px;height:44px;border-radius:50%;background:var(--o);color:var(--oi);display:grid;place-items:center}
+.mic.off{background:#ECE4F5;color:var(--cm)}
+.mic.live{animation:pu 1.4s infinite}
+@keyframes pu{0%{box-shadow:0 0 0 0 rgba(149,25,239,.55)}100%{box-shadow:0 0 0 16px rgba(149,25,239,0)}}
+.tip{background:var(--ct);color:var(--cd);font-size:13px;line-height:1.4;padding:9px 12px;border-radius:12px;margin-top:6px;animation:inr .3s}
+.body{margin-top:8px}
+.body.r{animation:inr .42s cubic-bezier(.2,.9,.3,1)}.body.l{animation:inl .42s cubic-bezier(.2,.9,.3,1)}
+@keyframes inr{from{opacity:0;transform:translateX(40px)}}
+@keyframes inl{from{opacity:0;transform:translateX(-40px)}}
+.in{width:100%;font:600 19px/1.2 Outfit,system-ui,sans-serif;padding:14px;border:2px solid var(--ln);border-radius:14px;background:#fff;color:var(--ct);transition:border-color .3s,box-shadow .3s}
+.in:focus{border-color:var(--o)}
+.in.ok{border-color:var(--g);box-shadow:0 0 0 4px rgba(76,175,80,.15)}
+.cg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.chip{min-height:48px;border:2px solid var(--ln);border-radius:14px;background:#fff;color:var(--ct);font-weight:600;font-size:15px;transition:.25s cubic-bezier(.4,1.6,.5,1)}
+.chip:hover{border-color:var(--o);transform:translateY(-2px)}
+.chip.sel{background:var(--g);border-color:var(--g);color:#0F2A12;transform:scale(1.04)}
+.geo{width:100%;min-height:46px;margin-bottom:8px;border:2px dashed var(--o);border-radius:14px;background:#F3DEFF;color:var(--ct);font-weight:600;font-size:15px}
+.vs{display:flex;align-items:center;gap:10px;margin-top:10px;font-size:13px;color:var(--cm);min-height:24px}
+.wave{display:flex;align-items:center;gap:3px;height:20px}
+.wave i{width:3px;height:6px;border-radius:2px;background:var(--o)}
+.vs.live .wave i{animation:wv .9s ease-in-out infinite}
+.wave i:nth-child(2){animation-delay:.15s}.wave i:nth-child(3){animation-delay:.3s}.wave i:nth-child(4){animation-delay:.45s}.wave i:nth-child(5){animation-delay:.6s}
+@keyframes wv{50%{height:20px}}
+.cn{display:flex;align-items:center;gap:10px;margin-top:10px}
+.nb{width:44px;height:44px;border-radius:50%;border:1.5px solid var(--ln);background:#fff;color:var(--ct);display:grid;place-items:center}
+.nb:disabled{opacity:.35}
+.dots{flex:1;display:flex;justify-content:center;gap:6px}
+.dots i{width:8px;height:8px;border-radius:4px;background:#C4C7C7;transition:.4s}
+.dots i.done{background:var(--g)}.dots i.cur{background:var(--o);width:24px}
+.nx{height:44px;padding:0 22px;border:0;border-radius:22px;background:var(--o);color:var(--oi);font-weight:700;font-size:16px}
+.nx:disabled{opacity:.4}
+.allf{text-align:center;font-size:12px;font-weight:600;color:var(--gt);height:16px;margin-top:6px}
+.foot{flex:none;display:flex;gap:10px}
+.ghost{height:52px;padding:0 16px;border:1.5px solid #747878;border-radius:26px;background:transparent;color:var(--ink);font-weight:600;font-size:14px;display:flex;align-items:center;gap:8px}
+.save{flex:1;height:52px;border:1.5px solid #444748;border-radius:26px;background:var(--pn);color:var(--pt);font-weight:700;font-size:17px;display:flex;align-items:center;justify-content:center;gap:8px}
+.save b{background:var(--o);color:var(--oi);font-size:12px;border-radius:9px;padding:2px 8px}
+.save:disabled{opacity:.7}
+.save.rdy{background:var(--o);color:var(--oi);animation:pu 1.4s infinite}
+.save.rdy b{display:none}
+.fin{position:absolute;inset:0;background:var(--pn);padding:24px 18px 12px;display:none;flex-direction:column;align-items:center;text-align:center;animation:inr .5s}
+.fin.on{display:flex}
+.fin svg{width:64px;height:64px}
+.fin h2{margin:12px 0 4px;font-size:26px}
+.sm{display:grid;grid-template-columns:1fr 1fr;gap:6px;width:100%;margin-top:14px}
+.sm div{background:#201F1F;border-radius:12px;padding:4px 10px;text-align:left;min-width:0}
+.sm small{display:block;color:var(--pm);font-size:11px}
+.sm span{font-weight:600;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block}
+.pop{position:fixed;left:50%;top:38%;transform:translateX(-50%);color:var(--pa);font-weight:700;font-size:22px;pointer-events:none;animation:up 1s forwards;z-index:9;text-shadow:0 2px 8px rgba(0,0,0,.5)}
+@keyframes up{to{transform:translate(-50%,-70px);opacity:0}}
+.bit{position:fixed;width:8px;height:8px;border-radius:2px;pointer-events:none;animation:bt .9s ease-out forwards;z-index:9}
+@keyframes bt{to{transform:translate(var(--dx),var(--dy)) rotate(360deg);opacity:0}}
+.mp{position:absolute;inset:0;z-index:5;background:rgba(23,17,28,.97);display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:28px}
+.mp.on{display:flex;animation:inr .4s}
+.mi{width:84px;height:84px;border-radius:50%;background:var(--o);color:var(--oi);display:grid;place-items:center;animation:pu 1.4s infinite}
+.mi svg{width:38px;height:38px}
+.mp h2{margin:20px 0 8px;font-size:25px}
+.mp p{margin:0 0 14px;color:var(--pm);font-size:15px;line-height:1.45;max-width:30ch}
+.mp p.mw{color:#DFB7FF}
+.ghost.needs{background:var(--o);border-color:var(--o);color:var(--oi);font-weight:700;animation:pu 1.4s infinite}
+.ghost.on{border-color:#4CAF50}
+.ghost.on::before{content:"";width:9px;height:9px;border-radius:50%;background:#4CAF50}
+.mb{height:52px;padding:0 30px;border:0;border-radius:26px;background:var(--o);color:var(--oi);font-weight:700;font-size:17px}
+.ms{margin-top:8px;min-height:44px;padding:0 16px;border:0;background:none;color:var(--pm);font-size:15px;text-decoration:underline}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.node.lock span{opacity:.45}
+.up{width:100%;min-height:52px;border:2px dashed var(--o);border-radius:14px;background:#F3DEFF;color:var(--ct);font-weight:600;font-size:15px;display:flex;align-items:center;justify-content:center;gap:8px}
+.ths{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.th{padding:0;border:2px solid var(--ln);border-radius:10px;width:52px;height:52px;overflow:hidden;background:none}
+.th img{width:100%;height:100%;object-fit:cover;display:block}
+.stat{border:2px solid var(--g);border-radius:14px;background:#F1F8F1;padding:12px 14px}
+.stat b{display:block;font-size:28px}
+.stat span{font-size:13px;color:var(--cm)}
+.tg{display:flex;align-items:center;gap:10px;min-height:48px;margin-top:6px;border:0;background:none;color:var(--ct);font-weight:600;font-size:15px;padding:0}
+.tg i{position:relative;width:46px;height:26px;border-radius:13px;background:#C4C7C7;transition:.25s;flex:none}
+.tg i::after{content:"";position:absolute;left:3px;top:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:.25s}
+.tg.on i{background:var(--o)}.tg.on i::after{left:23px}
+.stp{display:flex;gap:8px;align-items:center}
+.stp .in{text-align:center;flex:1;min-width:0}
+.sb{width:54px;height:54px;flex:none;border-radius:14px;border:2px solid var(--ln);background:#fff;color:var(--ct);font:600 28px/1 Outfit,system-ui,sans-serif}
+.sb:active{background:#F3DEFF}
+</style>
+</head>
+<body>
+<div class="app">
+ <main class="panel" id="panel">
+  <header>
+   <div class="t1"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#DFB7FF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 01-10 0zM7 6H4v1a3 3 0 003 3M17 6h3v1a3 3 0 01-3 3"/></svg>Tyre quest · Tyre onboarding</div>
+   <div class="xp"><div class="xb"><i id="xb"></i></div><span class="pct" id="pct">0%</span></div>
+   <div class="sub" id="hint">Tap a bubble to begin. Just talk, no typing.</div>
+  </header>
+  <section class="hub" id="hub">
+   <div class="ring r1"></div><div class="ring r2"></div>
+   <svg class="av" id="av" viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="56" fill="#2A2A2A" stroke="#9519EF" stroke-width="3"/><g fill="none" stroke="#EBDEEE" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"><path d="M28 48h36v26H28zM64 56h14l10 10v8H64z"/><circle cx="42" cy="78" r="5.5" fill="#2A2A2A"/><circle cx="78" cy="78" r="5.5" fill="#2A2A2A"/></g></svg>
+   <button class="node" id="n-t1" style="--x:0px;--y:calc(var(--r)*-1.3)"></button>
+   <button class="node" id="n-t2" style="--x:calc(var(--r)*1.1);--y:calc(var(--r)*-.35)"></button>
+   <button class="node" id="n-t3" style="--x:calc(var(--r)*.9);--y:calc(var(--r)*1.1)"></button>
+   <button class="node" id="n-t4" style="--x:calc(var(--r)*-.9);--y:calc(var(--r)*1.1)"></button>
+   <button class="node" id="n-t5" style="--x:calc(var(--r)*-1.1);--y:calc(var(--r)*-.35)"></button>
+   </section>
+  <section class="card" id="card" aria-live="polite"></section>
+  <section class="fin" id="fin"></section>
+ </main>
+ <footer class="foot">
+  <button class="ghost" id="vt" type="button"></button>
+  <button class="save" id="save" type="button" disabled>Save <b id="left">7 left</b></button>
+ </footer>
+</div>
+<script>
+var $=function(s){return document.querySelector(s)};
+var IC={mic:'<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0014 0M12 18v3"/></svg>',
+x:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>',
+l:'<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>',
+ck:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg>'};
+function ic(p){return '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+p+'</svg>'}
+IC.ent=ic('<path d="M5 21V4M5 4h11l-2 4 2 4H5"/>');IC.veh=ic('<path d="M2 6h12v10H2zM14 9h4l4 4v3h-8z"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/>');IC.det=ic('<path d="M4 6h16M4 12h16M4 18h10"/>');IC.img=ic('<path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/>');
+IC.t1=ic('<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.5"/>');IC.t2=ic('<path d="M4 6h16M4 12h16M4 18h10"/>');IC.t3=ic('<path d="M4 18a8 8 0 1116 0M12 18l4-6"/>');IC.t4=ic('<circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/>');IC.t5=IC.img;
+var NODES=['t1','t2','t3','t4','t5'];
+var GN={t1:'Tyre',t2:'Make & size',t3:'Tread & fit',t4:'Inspection',t5:'Photos'};
+var GT={t1:'Tyre onboarding',t2:'Make, model & size',t3:'Tread & fitment',t4:'Inspection',t5:'Tyre images'};
+var MFR=['MRF','Apollo','CEAT','JK Tyre','BKT','Goodyear'];
+var MOD={MRF:['Shakti Life','Shakti Super Lug','Nylon Grip'],Apollo:['Farm King','Farm Power','Krishak Gold'],CEAT:['Farmax R-1','Farmax Plus','Sona'],'JK Tyre':['Jai Kisan','Super Lug','Hi-Grip'],BKT:['AS-504','TR-135','Agrimax RT'],Goodyear:['Dyna Torque','Sure Grip']};
+var PT={'Shakti Life':['R-1 Lug',30],'Shakti Super Lug':['R-1W Deep lug',34],'Nylon Grip':['R-1 Lug',28],'Farm King':['R-1 Lug',30],'Farm Power':['R-1 Lug',29],'Krishak Gold':['R-2 Cane & rice',36],'Farmax R-1':['R-1 Lug',30],'Farmax Plus':['R-1W Deep lug',33],Sona:['R-1 Lug',27],'Jai Kisan':['R-1 Lug',29],'Super Lug':['R-1W Deep lug',34],'Hi-Grip':['R-1 Lug',28],'AS-504':['R-1 Lug',31],'TR-135':['R-1 Lug',28],'Agrimax RT':['R-1W Deep lug',35]};
+var CAT=['Drive','Steering','Trailer','Implement'];
+var SUB={Drive:['Rear drive','Dual wheel'],Steering:['Front steering','Narrow front'],Trailer:['Trailer axle','Lift axle'],Implement:['Implement wheel','Transport wheel']};
+var SIZES=['6.00-16','7.50-16','9.5-24','13.6-28','14.9-28','16.9-30','18.4-30','18.4-34'];
+var V={},passed={},IM=[],cur={g:null,i:0},mic='unknown',want=true,tip=false,busy=false,rec=null,run=0;
+var SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR)mic='unsupported';
+var BLOCK='The microphone is blocked. Click the lock icon next to the address bar, set Microphone to Allow, then tap Turn on mic again.'+(window.self!==window.top?' This page is inside a frame, so the embedding code needs allow="microphone".':'');
+var gr=function(k){return function(){return +(V.grooves||4)>=k}};
+var retread=function(){return V.cond==='Retread'};
+var F=[
+{id:'serial',g:'t1',l:'Tyre serial number',req:1,t:'serial',tog:1,ph:'e.g. MR2406123456',info:'The serial number moulded on the tyre sidewall. If you can’t read it, switch on “Serial number not visible”.',say:'Say the serial letter by letter, or say “not visible”'},
+{id:'test',g:'t1',l:'Test code',t:'sel',o:['TC-101','TC-102','TC-103','TC-104'],info:'The test code, if this tyre is part of a test. Optional.',say:'Say the test code, or say “skip”'},
+{id:'cond',g:'t1',l:'Tyre condition',req:1,t:'chips',o:['New','Retread','Used'],info:'Is the tyre new, retreaded or used? Retread asks for belt depths later.',say:'Say New, Retread or Used'},
+{id:'cat',g:'t1',l:'Tyre category',req:1,t:'chips',o:CAT,info:'Where this tyre is used on the vehicle.',say:'Say Drive, Steering, Trailer or Implement'},
+{id:'sub',g:'t1',l:'Sub category',req:1,t:'sel',o:function(){return SUB[V.cat]||['Other']},info:'A more specific type. The list depends on the category.',say:'Say the sub category, or pick it from the list'},
+{id:'water',g:'t1',l:'Water ballasting',req:1,t:'chips',o:['Yes','No'],info:'Is the tyre filled with water for extra weight?',say:'Say Yes or No'},
+{id:'mfr',g:'t2',l:'Tyre manufacturer',req:1,t:'sel',o:MFR,info:'The brand printed on the tyre.',say:'Say the brand, like “Apollo”'},
+{id:'model',g:'t2',l:'Tyre model',req:1,t:'sel',o:function(){return MOD[V.mfr]||['Other']},info:'The model name on the sidewall. The list depends on the brand.',say:'Say the model, or pick it from the list'},
+{id:'size',g:'t2',l:'Tyre size',req:1,t:'sel',o:SIZES,info:'The size written on the sidewall, like 14.9-28.',say:'Pick the size from the list'},
+{id:'scond',g:'t2',l:'Size condition',req:1,t:'chips',o:['Standard','Oversize','Undersize'],info:'Is the size the standard fitment, or larger or smaller?',say:'Say Standard, Oversize or Undersize'},
+{id:'pattern',g:'t2',l:'Tyre pattern',req:1,t:'auto',show:function(){return [V.pattern,'Fetched from the tyre model']},info:'Fetched for you from the model. Nothing to type.',say:'Say “next” to confirm'},
+{id:'pbelt',g:'t3',w:retread,l:'Previous belt OTD (mm)',req:1,t:'num',dec:1,min:0.5,max:40,ph:'e.g. 18',info:'Original tread depth of the old belt. Needed for retreads.',say:'Say the depth in millimetres'},
+{id:'nbelt',g:'t3',w:retread,l:'New belt OTD (mm)',req:1,t:'num',dec:1,min:0.5,max:40,ph:'e.g. 25',info:'Original tread depth of the new belt. Needed for retreads.',say:'Say the depth in millimetres'},
+{id:'otd',g:'t3',l:'Original tread depth',req:1,t:'auto',show:function(){return [V.otd,'Fetched from the tyre model']},info:'Fetched for you from the model. Nothing to type.',say:'Say “next” to confirm'},
+{id:'avg',g:'t3',l:'Average current tread depth (mm)',req:1,t:'num',dec:1,min:0.5,max:40,ph:'e.g. 22',info:'Measure the depth across the tread and give the average, in millimetres.',say:'Say the average depth in millimetres'},
+{id:'grooves',g:'t3',l:'Number of grooves',req:1,t:'chips',o:['2','3','4'],info:'How many grooves you measure on this tyre.',say:'Say 2, 3 or 4'},
+{id:'covh',g:'t3',l:'Number of hours covered',req:1,t:'num',min:0,max:99999,ph:'e.g. 800',info:'Hours this tyre has already run.',say:'Say the hours covered'},
+{id:'fith',g:'t3',l:'Fitment hours',req:1,t:'num',min:0,max:99999,ph:'e.g. 1250',info:'The vehicle’s hour meter reading when this tyre was fitted.',say:'Say the vehicle hours at fitment'},
+{id:'fdate',g:'t3',l:'Fitment date',req:1,t:'date',info:'The day the tyre was fitted. Tap to pick, or say “today”, “yesterday” or a date.',say:'Say a date, like “5 November 2026”, or “yesterday”'},
+{id:'recip',g:'t3',l:'Recommended IP (psi)',req:1,t:'num',dec:1,min:1,max:60,ph:'e.g. 24',info:'The inflation pressure recommended for this tyre, in psi.',say:'Say the pressure in psi'},
+{id:'ihrs',g:'t4',l:'Inspection vehicle hours',req:1,t:'num',min:0,max:99999,ph:'e.g. 1500',info:'The vehicle’s hour meter reading right now.',say:'Say the hours on the meter'},
+{id:'g1',g:'t4',w:gr(1),l:'Groove 1 RTD (mm)',req:1,t:'num',step:1,dec:1,min:0,max:40,ph:'mm',info:'Remaining tread depth in groove 1. Use − and + or say the number.',say:'Say the depth in millimetres'},
+{id:'g2',g:'t4',w:gr(2),l:'Groove 2 RTD (mm)',req:1,t:'num',step:1,dec:1,min:0,max:40,ph:'mm',info:'Remaining tread depth in groove 2.',say:'Say the depth in millimetres'},
+{id:'g3',g:'t4',w:gr(3),l:'Groove 3 RTD (mm)',req:1,t:'num',step:1,dec:1,min:0,max:40,ph:'mm',info:'Remaining tread depth in groove 3.',say:'Say the depth in millimetres'},
+{id:'g4',g:'t4',w:gr(4),l:'Groove 4 RTD (mm)',req:1,t:'num',step:1,dec:1,min:0,max:40,ph:'mm',info:'Remaining tread depth in groove 4.',say:'Say the depth in millimetres'},
+{id:'chip',g:'t4',l:'Chipping rate',t:'chips',o:['Low','Medium','High'],info:'How much the tread is chipping. Optional.',say:'Say Low, Medium or High, or say “skip”'},
+{id:'wear',g:'t4',l:'Wear pattern',req:1,t:'sel',o:['Even wear','Shoulder wear','Centre wear','Cupping','Feathering','Heel and toe'],info:'The way the tyre is wearing.',say:'Say the wear pattern'},
+{id:'hard',g:'t4',l:'Tyre hardness',t:'num',dec:1,min:1,max:100,ph:'e.g. 62',info:'Hardness reading, if you measured it. Optional.',say:'Say the reading, or say “skip”'},
+{id:'mech',g:'t4',l:'Mechanical irregularity',t:'sel',o:['None','Bulge','Cut','Bead damage','Sidewall damage','Uneven rim seat'],info:'Any damage or irregularity you see. Optional.',say:'Say what you see, or say “skip”'},
+{id:'rem',g:'t4',l:'Remarks',req:1,t:'note',ph:'Short note on the tyre',info:'A short note about the tyre’s condition.',say:'Say your remarks'},
+{id:'aip',g:'t4',l:'Actual IP (psi)',t:'num',dec:1,min:1,max:60,ph:'e.g. 22',info:'The pressure you measured, in psi. Optional.',say:'Say the pressure, or say “skip”'},
+{id:'img',g:'t5',l:'Tyre images',t:'img',info:'Photos of the tyre. Optional. Say “skip” to pass.',say:'Tap to take or upload photos, or say “skip”'}];
+var FI={};F.forEach(function(f){FI[f.id]=f});
+var vis=function(f){return !f.w||f.w()};
+var gf=function(g){return F.filter(function(f){return f.g===g&&vis(f)})};
+var O=function(f){return typeof f.o==='function'?f.o():f.o};
+var esc=function(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;')};
+var today=function(){var d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
+function valid(f,v){v=(v==null?'':String(v)).trim();switch(f.t){case'chips':case'sel':return O(f).indexOf(v)>-1;case'num':return (f.dec?/^\d+(\.\d+)?$/:/^\d+$/).test(v)&&+v>=f.min&&+v<=f.max;case'serial':return v==='NOT VISIBLE'||/^[A-Z0-9]{4,20}$/.test(v.replace(/[\s-]/g,''));case'note':return v.length>=2;case'auto':return v.length>0;case'date':return /^\d{4}-\d{2}-\d{2}$/.test(v)&&v>='2000-01-01'&&v<=today();case'img':return /^[1-9]\d*$/.test(v)}return false}
+var filled=function(f){return !!V[f.id]&&valid(f,V[f.id])};
+var fok=function(f){return f.req?filled(f):(filled(f)||!!passed[f.id])};
+var gdone=function(g){var a=gf(g);return a.length>0&&a.every(fok)};
+var voiceOn=function(){return mic==='on'&&want};
+var NW={zero:0,one:1,two:2,three:3,four:4,five:5,six:6,seven:7,eight:8,nine:9,ten:10,eleven:11,twelve:12,thirteen:13,fourteen:14,fifteen:15,sixteen:16,seventeen:17,eighteen:18,nineteen:19,twenty:20,thirty:30,forty:40,fifty:50,sixty:60,seventy:70,eighty:80,ninety:90};
+function numw(s){var tot=0,c=0,got=false;s.split(/[\s-]+/).forEach(function(w){if(NW.hasOwnProperty(w)){c+=NW[w];got=true}else if(w==='hundred'){c=(c||1)*100;got=true}else if(w==='thousand'){tot+=(c||1)*1000;c=0;got=true}});return got?String(tot+c):''}
+function num(t){var s=t.toLowerCase().replace(/,/g,''),m=s.match(/\d+(\.\d+)?/);if(m)return m[0];var p=s.split(/\bpoint\b/),iw=numw(p[0]);if(p.length>1){var fr=p[1].trim().split(/\s+/).map(function(w){return NW.hasOwnProperty(w)?NW[w]:''}).join('');return (iw||'0')+(fr?'.'+fr:'')}return iw}
+function plate(t){var a=t.toLowerCase().replace(/[^a-z0-9 -]/g,' ').split(/[\s-]+/),o='';for(var k=0;k<a.length;k++){var w=a[k];if(!w)continue;if(NW.hasOwnProperty(w)){var n=NW[w];if(n>=20&&k+1<a.length&&NW.hasOwnProperty(a[k+1])&&NW[a[k+1]]>0&&NW[a[k+1]]<10){n+=NW[a[k+1]];k++}o+=n}else if(w==='double'&&k+1<a.length){var d=NW.hasOwnProperty(a[k+1])?NW[a[k+1]]:a[k+1];o+=d+''+d;k++}else o+=w}return o.toUpperCase()}
+function iso(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')}
+function pdate(t){var n=t.toLowerCase().replace(/(\d)(st|nd|rd|th)\b/g,'$1').replace(/\bof\b/g,'').trim(),d=new Date();if(/today/.test(n))return iso(d);if(/yesterday/.test(n)){d.setDate(d.getDate()-1);return iso(d)}var m=n.match(/(\d+)\s*days?\s*ago/);if(m){d.setDate(d.getDate()-m[1]);return iso(d)}var p=new Date(n);if(!isNaN(p)){if(p.getFullYear()<2000)p.setFullYear(d.getFullYear());return iso(p)}return ''}
+function parse(f,t){var n=t.toLowerCase().trim();
+ if(f.t==='num')return num(n);if(f.t==='serial')return plate(n);if(f.t==='date')return pdate(n);if(f.t==='note')return t.trim().replace(/^./,function(c){return c.toUpperCase()});
+ if(f.t==='chips'||f.t==='sel'){var q=n;if(f.id==='grooves')q=n.replace(/\b(two|three|four)\b/g,function(m){return NW[m]});
+  q=q.replace(/[^a-z0-9]/g,'');var best='';O(f).forEach(function(o){var k=o.toLowerCase().replace(/[^a-z0-9]/g,'');if(q.indexOf(k)>-1&&o.length>best.length)best=o});return best}
+ return ''}
+/* ---------- hub ---------- */
+function calcAuto(){var m=V.model;if(m&&O(FI.model).indexOf(m)>-1){var p=PT[m]||['R-1 Lug',28];V.pattern=p[0];V.otd=p[1]+' mm';passed.pattern=1;passed.otd=1}else{V.pattern='';V.otd=''}}
+function hubUpd(){calcAuto();var all=F.filter(vis),fl=all.filter(filled).length,left=all.filter(function(f){return f.req&&!filled(f)}).length;
+ $('#xb').style.width=(fl/all.length*100)+'%';$('#pct').textContent=Math.round(fl/all.length*100)+'%';
+ NODES.forEach(function(g){var n=$('#n-'+g),a=gf(g),c=a.filter(filled).length,d=gdone(g);n.className='node'+(d?' done':c?' prog':'');
+  n.innerHTML='<span>'+(d?IC.ck:IC[g])+GN[g]+'<small>'+c+'/'+a.length+'</small></span>'});
+ var s=$('#save'),ready=left===0;s.disabled=!ready;s.className='save'+(ready?' rdy':'');s.innerHTML=ready?'Save and finish '+IC.ck:'Save '+IC.ck+' <b>'+left+' left</b>';
+ $('#av').classList.toggle('glow',fl>0);
+ $('#hint').textContent=left?(fl?'Keep going. '+left+' required answer'+(left>1?'s':'')+' to go.':'Tap a bubble to begin. Just talk, no typing.'):'All set. Tap Save to finish.'}
+function micUpd(){var b=$('#vt'),t=voiceOn()?'Mic on':(mic==='unsupported'?'Voice not supported':'Turn on mic');b.className='ghost'+(voiceOn()?' on':(mic==='unsupported'?'':' needs'));
+ b.innerHTML=(voiceOn()?'':IC.mic)+t;b.disabled=mic==='unsupported';b.setAttribute('aria-pressed',voiceOn())}
+/* ---------- fx ---------- */
+function pop(t){var e=document.createElement('div');e.className='pop';e.textContent=t;document.body.appendChild(e);setTimeout(function(){e.remove()},1000)}
+function burst(el){var r=el.getBoundingClientRect(),cs=['#9519EF','#DFB7FF','#4CAF50','#F3DEFF'];for(var k=0;k<18;k++){var b=document.createElement('i');b.className='bit';b.style.left=(r.left+r.width/2)+'px';b.style.top=(r.top+r.height/2)+'px';b.style.background=cs[k%4];var a=Math.random()*6.28,d=50+Math.random()*70;b.style.setProperty('--dx',Math.cos(a)*d+'px');b.style.setProperty('--dy',Math.sin(a)*d+'px');document.body.appendChild(b);setTimeout(function(x){x.remove()},950,b)}}
+/* ---------- mic ---------- */
+function enableMic(){if(!SR){mic='unsupported';return Promise.resolve(false)}
+ if(!window.isSecureContext||!(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia)){mic='denied';BLOCK='The microphone needs a secure https:// address. Open this page over https.';return Promise.resolve(false)}
+ return navigator.mediaDevices.getUserMedia({audio:true}).then(function(s){s.getTracks().forEach(function(t){t.stop()});mic='on';return true}).catch(function(er){mic='denied';if(er&&er.name==='NotFoundError')BLOCK='No microphone was found. Connect one and tap Turn on mic again.';return false})}
+function ask(){return enableMic().then(function(ok){micUpd();if(!ok&&mic==='denied'){$('#hint').textContent=BLOCK;var h=$('#heard');if(h)h.textContent=BLOCK}return ok})}
+function stopListen(){run++;try{rec&&rec.abort()}catch(e){}rec=null}
+function startListen(){if(!voiceOn()||!cur.g)return;stopListen();var id=++run;rec=new SR();rec.lang='en-IN';rec.interimResults=true;rec.maxAlternatives=1;
+ rec.onstart=function(){var v=$('.vs');v&&v.classList.add('live');var m=$('.mic');m&&m.classList.add('live')};
+ rec.onresult=function(e){var t='',fin=false;for(var k=e.resultIndex;k<e.results.length;k++){t+=e.results[k][0].transcript;if(e.results[k].isFinal)fin=true}heard('\u201c'+t.trim()+'\u201d');if(fin)handle(t)};
+ rec.onerror=function(e){var er=e.error;if(er==='not-allowed'||er==='service-not-allowed'){mic='denied';micUpd();render('');heard(BLOCK)}else if(er==='audio-capture')heard('No microphone found. Choose a mic in your browser settings.');else if(er==='network')heard('Speech service unreachable. Check your internet connection.');else if(er==='no-speech')heard('Didn\u2019t hear anything. Speak after the mic pulses.')};
+ rec.onend=function(){var v=$('.vs');v&&v.classList.remove('live');var m=$('.mic');m&&m.classList.remove('live');if(id===run&&voiceOn()&&cur.g&&!busy)setTimeout(function(){if(id===run)startListen()},250)};
+ try{rec.start()}catch(e){}}
+function heard(t){var h=$('#heard');if(h)h.textContent=t}
+function handle(t){var f=gf(cur.g)[cur.i],n=t.toLowerCase().trim().replace(/[.!]/g,'');
+ if(/^(skip|next|done|continue|confirm)$/.test(n)){if(!f.req||filled(f))go(1);else heard('This one is required. '+f.say);return}
+ if(/^(back|previous|go back)$/.test(n)){go(-1);return}
+ if(f.tog&&/(not visible|cannot see|can.?t see)/.test(n)){V.nov='Yes';setVal(f,'NOT VISIBLE',true);return}
+ if(f.t==='auto'||f.t==='img'){heard('Say \u201cnext\u201d to continue.');return}
+ var v=parse(f,t);if(valid(f,v))setVal(f,v,true);else heard('Heard \u201c'+t.trim()+'\u201d. Please say it again.')}
+/* ---------- card ---------- */
+function setVal(f,v,auto){var was=filled(f);V[f.id]=v;passed[f.id]=1;
+ if(f.id===gf(cur.g)[cur.i].id)render('');
+ hubUpd();if(!was&&filled(f)){pop('+10 XP');if(navigator.vibrate)navigator.vibrate(15)}
+ if(auto){busy=true;stopListen();setTimeout(function(){busy=false;if(cur.g&&gf(cur.g)[cur.i].id===f.id)go(1)},800)}}
+function render(dir){calcAuto();var a=gf(cur.g),f=a[cur.i],last=cur.i===a.length-1,v=V[f.id]||'',ok=filled(f),vo=voiceOn(),body;
+ var nov=f.tog&&V.nov==='Yes';
+ var ro=(vo||nov)?' readonly inputmode="none"':' inputmode="'+(f.t==='num'?(f.dec?'decimal':'numeric'):'text')+'"';
+ var inp='<input class="in'+(ok?' ok':'')+'" id="inp" aria-label="'+esc(f.l)+'" value="'+esc(v)+'" placeholder="'+esc(f.ph||'')+'" autocomplete="off"'+(f.t==='serial'?' autocapitalize="characters"':'')+ro+'>';
+ if(f.t==='chips')body='<div class="cg">'+O(f).map(function(o){return '<button type="button" class="chip'+(v===o?' sel':'')+'" data-a="pick" data-v="'+esc(o)+'">'+esc(o)+'</button>'}).join('')+'</div>';
+ else if(f.t==='sel')body='<select class="in'+(ok?' ok':'')+'" id="inp" data-a="sel" aria-label="'+esc(f.l)+'"><option value="">Select\u2026</option>'+O(f).map(function(o){return '<option'+(v===o?' selected':'')+'>'+esc(o)+'</option>'}).join('')+'</select>';
+ else if(f.t==='auto'){var s=f.show();body='<div class="stat"><b>'+(ok?esc(s[0]):'\u2013')+'</b><span>'+(ok?s[1]:'Pick the tyre model first')+'</span></div>'}
+ else if(f.t==='date')body='<input type="date" class="in'+(ok?' ok':'')+'" id="inp" data-a="sel" aria-label="'+esc(f.l)+'" max="'+today()+'" value="'+esc(v)+'"><div class="cg" style="margin-top:8px"><button type="button" class="chip" data-a="pick" data-v="'+today()+'">Today</button><button type="button" class="chip" data-a="pick" data-v="'+iso(new Date(Date.now()-864e5))+'">Yesterday</button></div>';
+ else if(f.t==='img')body='<input type="file" id="fi" accept="image/*" multiple hidden><button type="button" class="up" data-a="upl">'+IC.img+(IM.length?'Add more photos':'Take or upload photos')+'</button>'+(IM.length?'<div class="ths">'+IM.map(function(u,k){return '<button type="button" class="th" data-a="rm" data-i="'+k+'" aria-label="Remove photo '+(k+1)+'"><img src="'+u+'" alt="Photo '+(k+1)+'"></button>'}).join('')+'</div>':'');
+ else if(f.step)body='<div class="stp"><button type="button" class="sb" data-a="stp" data-d="-1" aria-label="Decrease">\u2212</button>'+inp+'<button type="button" class="sb" data-a="stp" data-d="1" aria-label="Increase">+</button></div>';
+ else body=inp+(f.tog?'<button type="button" class="tg'+(nov?' on':'')+'" role="switch" aria-checked="'+(nov?'true':'false')+'" data-a="tog"><i></i>Serial number not visible</button>':'');
+ var st=vo?f.say:(mic==='denied'?'Mic is blocked. Type your answer instead.':'Type your answer');
+ var dots=a.map(function(x,k){return '<i class="'+(k===cur.i?'cur':(filled(x)||passed[x.id]?'done':''))+'"></i>'}).join('');
+ $('#card').innerHTML='<div class="ch">'+IC[cur.g]+GT[cur.g]+'<span class="c">'+(cur.i+1)+' / '+a.length+'</span><button class="ib" data-a="close" aria-label="Close">'+IC.x+'</button></div>'+
+ '<div class="lr">'+f.l+(f.req?'<span class="rq">*</span>':'')+'<button class="inf" data-a="tip" aria-label="What to fill in '+esc(f.l)+'">i</button>'+
+ (mic==='unsupported'?'':'<button class="mic'+(vo?'':' off')+'" data-a="mic" aria-label="'+(vo?'Turn voice off and type':'Turn voice on')+'">'+IC.mic+'</button>')+'</div>'+
+ (tip?'<div class="tip">'+f.info+'</div>':'')+
+ '<div class="body '+(dir||'')+'">'+body+'</div>'+
+ '<div class="vs"><span class="wave" style="'+(vo?'':'display:none')+'"><i></i><i></i><i></i><i></i><i></i></span><span id="heard">'+st+'</span></div>'+
+ '<div class="cn"><button class="nb" data-a="back" aria-label="Previous"'+(cur.i?'':' disabled')+'>'+IC.l+'</button><div class="dots">'+dots+'</div><button class="nx" data-a="next"'+((f.req&&!ok)?' disabled':'')+'>'+(last?'Done':'Next')+'</button></div>'+
+ '<div class="allf">'+(gdone(cur.g)?'\u2713 All filled':'')+'</div>';
+ if(!vo&&dir!==''&&!nov&&(f.t==='serial'||f.t==='note'||(f.t==='num'&&!f.step)))setTimeout(function(){var i=$('#inp');i&&i.focus({preventScroll:true})},420)}
+function go(d){var a=gf(cur.g),f=a[cur.i];if(d>0){if(f.req&&!filled(f))return;passed[f.id]=1;tip=false;
+  if(cur.i===a.length-1){hubUpd();closeCard(true);return}cur.i++;render('r')}
+ else{if(!cur.i)return;tip=false;cur.i--;render('l')}
+ hubUpd();stopListen();setTimeout(startListen,400)}
+function openG(g){var go2=function(){var a=gf(g),k=a.findIndex(function(x){return !fok(x)});cur={g:g,i:k<0?0:k};tip=false;micUpd();$('#hub').classList.add('dim');$('#card').classList.add('open');render('r');setTimeout(startListen,600)};
+ if(mic==='unknown')enableMic().then(function(){micUpd();go2()});else go2()}
+function closeCard(fin){stopListen();var g=cur.g;cur.g=null;$('#card').classList.remove('open');$('#hub').classList.remove('dim');hubUpd();
+ if(fin&&gdone(g)){burst($('#n-'+g));pop('Section complete!')}}
+function addImgs(files){var n=Array.prototype.slice.call(files).slice(0,6-IM.length),left=n.length;if(!left)return;n.forEach(function(file){var r=new FileReader();r.onload=function(){var im=new Image();im.onload=function(){var c=document.createElement('canvas'),s=Math.min(1,160/Math.max(im.width,im.height));c.width=im.width*s;c.height=im.height*s;c.getContext('2d').drawImage(im,0,0,c.width,c.height);IM.push(c.toDataURL('image/jpeg',.7));if(--left===0)imgDone()};im.onerror=function(){if(--left===0)imgDone()};im.src=r.result};r.readAsDataURL(file)})}
+function imgDone(){var was=!!V.img;V.img=IM.length?String(IM.length):'';passed.img=1;if(cur.g==='t5')render('');hubUpd();if(!was&&IM.length)pop('+10 XP')}
+$('#card').addEventListener('click',function(e){var b=e.target.closest('[data-a]');if(!b)return;var a=b.dataset.a,f=gf(cur.g)[cur.i];
+ if(a==='close')closeCard(false);else if(a==='next')go(1);else if(a==='back')go(-1);else if(a==='tip'){tip=!tip;render('')}
+ else if(a==='pick')setVal(f,b.dataset.v,true);
+ else if(a==='tog'){if(V.nov==='Yes'){V.nov='';V.serial='';render('');hubUpd()}else{V.nov='Yes';setVal(f,'NOT VISIBLE',true)}}
+ else if(a==='stp'){var c=parseFloat(V[f.id]);if(isNaN(c))c=parseFloat(V.avg)||parseFloat(V.otd)||10;var nv=Math.max(f.min,Math.min(f.max,Math.round((c+(+b.dataset.d))*10)/10));setVal(f,String(nv),false)}
+ else if(a==='upl'){var fi=$('#fi');fi.onchange=function(){addImgs(fi.files)};fi.click()}
+ else if(a==='rm'){IM.splice(+b.dataset.i,1);imgDone()}
+ else if(a==='mic'){if(mic!=='on'){ask().then(function(ok){if(!ok)return;want=true;micUpd();render('');startListen()})}else{want=!want;micUpd();stopListen();render('');if(want)startListen()}}});
+$('#card').addEventListener('change',function(e){if(e.target.dataset.a==='sel'&&e.target.value)setVal(gf(cur.g)[cur.i],e.target.value,true)});
+$('#card').addEventListener('input',function(e){var t=e.target;if(t.id!=='inp'||t.readOnly||t.tagName!=='INPUT'||t.type==='date')return;var f=gf(cur.g)[cur.i],v=t.value;
+ if(f.t==='serial'){v=v.toUpperCase().replace(/[^A-Z0-9 -]/g,'');t.value=v}
+ if(f.t==='num'){v=v.replace(f.dec?/[^\d.]/g:/\D/g,'').slice(0,String(f.max).length+(f.dec?2:0));t.value=v}
+ V[f.id]=v;t.classList.toggle('ok',valid(f,v));var nx=$('.nx');nx.disabled=f.req&&!valid(f,v);hubUpd()});
+$('#card').addEventListener('keydown',function(e){if(e.key==='Enter'&&e.target.tagName==='INPUT'){var f=gf(cur.g)[cur.i];if(!f.req||filled(f)){e.preventDefault();go(1)}}});
+NODES.forEach(function(g){$('#n-'+g).addEventListener('click',function(){openG(g)})});
+$('#vt').addEventListener('click',function(){if(mic!=='on'){ask().then(function(ok){if(!ok)return;want=true;micUpd();if(cur.g){render('');startListen()}})}else{want=!want;micUpd();if(cur.g){stopListen();render('');if(want)startListen()}}});
+$('#save').addEventListener('click',function(){var fl=$('#fin'),ins=gf('t4'),items=[['Serial number',V.serial],['Condition',V.cond],['Make & model',(V.mfr||'')+' '+(V.model||'')],['Size',V.size],['Fitment date',V.fdate],['Recommended IP',V.recip?V.recip+' psi':''],['Inspection',ins.filter(filled).length+' of '+ins.length+' filled'],['Photos',IM.length?IM.length+' added':'None']];
+ fl.innerHTML='<svg width="84" height="84" viewBox="0 0 84 84" fill="none" aria-hidden="true"><circle cx="42" cy="42" r="42" fill="#9519EF"/><path d="M24 43l12 12 24-26" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/></svg><h2>Tyre added!</h2><div class="sub">Level complete. The tyre is recorded.</div><div class="sm">'+items.map(function(x){return '<div><small>'+x[0]+'</small><span>'+esc(x[1]||'\u2014')+'</span></div>'}).join('')+'</div>';
+ fl.classList.add('on');burst($('#save'));pop('+100 XP')});
+hubUpd();micUpd();
+if(SR&&navigator.permissions&&navigator.permissions.query){navigator.permissions.query({name:'microphone'}).then(function(s){if(s.state==='granted')enableMic().then(micUpd);s.onchange=function(){if(s.state==='granted'&&mic!=='on')enableMic().then(micUpd)}}).catch(function(){})}
+</script>
+</body>
+</html>
